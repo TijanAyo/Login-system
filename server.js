@@ -22,11 +22,12 @@ initializepassport(
 
 // Creating a local db to store users information
 // users information would be stored temporarily
+// Meaning that anytime to restart the server all user will be gone
 const users = []
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended:true}));
-app.use(express.json())
+app.use(express.json());
 
 app.use(flash());
 app.use(session({
@@ -41,7 +42,8 @@ app.use(methodOverride('_method'));
 
 // Routes
 app.get('/', checkAuthenticated, (req, res)=>{
-    res.render('index.ejs', { name: req.body.name, title: "Logging you in safely and securely is what we do"});
+    let context = { name:req.user.name, title: "Safe Authentication..."}
+    res.render('index.ejs', context);
 });
 
 app.get('/login', checkNotAuthenticated, (req, res)=>{
