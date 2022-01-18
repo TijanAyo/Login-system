@@ -8,6 +8,10 @@
 <body>
     <p>Login</p>
 
+    <% if(messages.error) { %>
+        <%= messages.error %>
+    <% } %>
+
     <form action="/login" method="POST">
         <div>
             <label for="email">Email</label>

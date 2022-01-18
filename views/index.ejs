@@ -6,6 +6,10 @@
     <title>Login-System | <%= title %></title>
 </head>
 <body>
-    <p>Hello & Welcome </p>
+    <h1>Hi, <%= name %></h1>
+
+    <form action="/logout?_method=DELETE" method="POST">
+        <button type="submit"> Logout </button>
+    </form>
 </body>
 </html>

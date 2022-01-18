@@ -7,13 +7,18 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
+const method = require('method-override');
 
 const app = express();
 
 const initializepassport = require('./passport-config');
-initializepassport(passport, email =>{
-    return users.find(user => user.email === email)
-})
+const methodOverride = require('method-override');
+
+initializepassport(
+    passport, 
+    email => users.find(user => user.email === email),
+    id => users.find(user => user.id === id)
+);
 
 // Creating a local db to store users information
 // users information would be stored temporarily
@@ -21,7 +26,9 @@ const users = []
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended:true}));
-app.use(flash())
+app.use(express.json())
+
+app.use(flash());
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -30,27 +37,28 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(methodOverride('_method'));
 
 // Routes
-app.get('/', (req, res)=>{
-    res.render('index.ejs', {title: "Logging you in safely and securely is what we do"});
+app.get('/', checkAuthenticated, (req, res)=>{
+    res.render('index.ejs', { name: req.body.name, title: "Logging you in safely and securely is what we do"});
 });
 
-app.get('/login', (req, res)=>{
+app.get('/login', checkNotAuthenticated, (req, res)=>{
     res.render('login.ejs');
 });
 
-app.post('/login', passport.authenticate('local', {
+app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/login',
     failureFlash: true
 }));
 
-app.get('/register', (req, res)=>{
+app.get('/register', checkNotAuthenticated, (req, res)=>{
     res.render('register.ejs');
 });
 
-app.post('/register', async (req,res)=>{
+app.post('/register', checkNotAuthenticated, async (req,res)=>{
     try{
         const hashedpassword = await bcrypt.hash(req.body.password, 10);
         users.push({
@@ -65,5 +73,30 @@ app.post('/register', async (req,res)=>{
         res.redirect('/register').status(500);
     }
 });
+
+app.delete('/logout', (req, res)=>{
+    req.logOut()
+    res.redirect('/login');
+})
+
+// checking if the user is authenticated
+function checkAuthenticated(req, res, next){
+    if (req.isAuthenticated()){
+        return next();
+    }
+    else{
+        res.redirect('/login');
+    }
+}
+
+// If user is authenticated don't allow them to go to certain pages
+function checkNotAuthenticated(req, res, next){
+    if (req.isAuthenticated()){
+        return res.redirect('/');
+    }
+    else{
+        next();
+    }
+}
 
 app.listen(3000);
