@@ -20,7 +20,7 @@ initializepassport(
     id => users.find(user => user.id === id)
 );
 
-// Creating a local db to store users information
+// Create a local/dummy db to store users information
 // users information would be stored temporarily
 // Meaning that anytime to restart the server all user will be gone
 const users = []
@@ -57,7 +57,7 @@ app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
 }));
 
 app.get('/register', checkNotAuthenticated, (req, res)=>{
-    res.render('register.ejs', {title: 'Create an account '});
+    res.render('register.ejs', {title: 'Create an account'});
 });
 
 app.post('/register', checkNotAuthenticated, async (req,res)=>{
