@@ -1,11 +1,9 @@
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Login- Sign into your account</title>
-</head>
+
+<!-- head Starts here -->
+<%- include('./partials/head.ejs') %>
+<!-- head ends-->
+
 <body id="body-bg" class="font-mono pt-12 md:pt-20 pb-6 px-2">
     <style>
         #body-bg{
@@ -24,7 +22,7 @@
 
     <section class="bg-white mx-auto max-w-lg p-8 md:p-12 my-10 rounded-lg shadow-2xl" id="sub-heading">
         <div class="">
-            <p class="font-bold text-gray-600 text-xl text-center italic"> Sign in to your account </p>
+            <p class="font-bold text-gray-600 text-lg text-center"> Sign in to your account </p>
         </div>
         <div class="mt-10" id="form-section">
             <form class="flex flex-col" action="/login" method="POST">
@@ -43,8 +41,8 @@
         </div>
     </section>
 
-    <div class="max-w-lg mx-auto text-center mt-12 mb-6">
-        <p class="text-white font-bold hover:underline">Don't have an account? <a href="/register">register</a></p>
+    <div class="max-w-lg mx-auto mt-12 mb-6">
+        <p class="text-white font-bold text-center">Don't have an account?<a class="pl-1 text-slate-200 hover:text-green-600" href="/register">register</a></p>
     </div>
 
     
