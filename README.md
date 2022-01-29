@@ -3,7 +3,11 @@ Login System
 A re-useable template made with Tailwindcss and Passport Js
 
 ### Usage
+```
+git clone https://github.com/TijanAyo/Login-system.git
+
 npm install
+```
 
 ---
 **NOTE**
