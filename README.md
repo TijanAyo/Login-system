@@ -1,6 +1,5 @@
-Login System
 
-A re-useable template made with Tailwindcss and Passport Js
+<p><strong>A re-useable login system customized with Tailwindcss along side Passport js has it's <b>authentication middleware</b></strong></p>
 
 ### Usage
 ```
